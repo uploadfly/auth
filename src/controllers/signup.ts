@@ -4,6 +4,7 @@ import validator from "validator";
 import { generateOTP } from "../../utils/generateOtp";
 import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
+import dayjs from "dayjs";
 
 const signup = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
@@ -39,6 +40,7 @@ const signup = async (req: Request, res: Response) => {
       username: email.split("@")[0],
       password: bcrypt.hashSync(password, 10),
       otp,
+      otp_expiry: dayjs().add(30, "minutes").toISOString(),
     },
   });
 
