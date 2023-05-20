@@ -12,6 +12,7 @@ model user {
   email          String   @unique
   username       String   @unique 
   password       String
+  otp            String 
   email_verified Boolean  @default(false)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
