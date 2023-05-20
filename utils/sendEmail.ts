@@ -10,7 +10,6 @@ const sendEmail = async ({
   body: string;
 }) => {
   await plunk.emails.send({
-    from: "Akinkunmi from Uploadfly",
     to,
     subject,
     body,
