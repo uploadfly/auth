@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node": "^18.15.3",
     "@types/validator": "^13.7.17",
     "prisma": "^4.11.0",
