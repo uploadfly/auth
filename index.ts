@@ -9,14 +9,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  (async () => {
-    await sendEmail({
-      to: "akinkunmioye42@gmail.com",
-      subject: "Hey",
-      body: "Hello there",
-    });
-    res.send("Email sent");
-  })();
+  res.send(
+    `<p> 
+    You shouldn't be here but since you're here you can as well just <a href="https://github.com/uploadfly/uploadfly"> give us a star on GitHub</a>
+    </p>`
+  );
 });
 
 app.use("/", authRouter);
