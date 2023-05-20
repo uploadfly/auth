@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
 import authRouter from "./src/routes";
-import { sendEmail } from "./utils/sendEmail";
 
 const app = express();
 
