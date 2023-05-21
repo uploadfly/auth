@@ -3,6 +3,7 @@ import prisma from "../../prisma";
 import bcrypt from "bcrypt";
 import { generateRefreshToken } from "../../utils/generateRefreshToken";
 import { calculateRefreshTokenExpiry } from "../../utils/calculateRefreshTokenExpiry";
+import dayjs from "dayjs";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -50,8 +51,16 @@ const login = async (req: Request, res: Response) => {
     },
   });
 
+  const responseToken = () => {
+    if (user.refresh_token && dayjs().isBefore(user.refresh_token_expiry)) {
+      return user.refresh_token;
+    }
+    return refreshToken;
+  };
+
   return res.status(200).json({
     message: "Success",
+    token: responseToken(),
   });
 };
 
