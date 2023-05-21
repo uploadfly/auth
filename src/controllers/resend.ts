@@ -35,7 +35,7 @@ const resendOTP = async (req: Request, res: Response) => {
     body: `Your verification code is ${otp}`,
   });
 
-  prisma.user.update({
+  await prisma.user.update({
     where: {
       email,
     },
@@ -44,5 +44,7 @@ const resendOTP = async (req: Request, res: Response) => {
       otp_expiry: dayjs().add(30, "minutes").toISOString(),
     },
   });
+
+  return res.status(200).json({ message: "OTP sent" });
 };
 export { resendOTP };
