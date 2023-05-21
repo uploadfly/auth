@@ -12,8 +12,8 @@ model user {
   email          String   @unique
   username       String   @unique 
   password       String
-  otp            String
-  otp_expiry     DateTime
+  otp            String?
+  otp_expiry     DateTime?
   email_verified Boolean  @default(false)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
