@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
 import bcrypt from "bcrypt";
+import { generateRefreshToken } from "../../utils/generateRefreshToken";
+import { calculateRefreshTokenExpiry } from "../../utils/calculateRefreshTokenExpiry";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -36,6 +38,17 @@ const login = async (req: Request, res: Response) => {
       message: "Email is not verified",
     });
   }
+
+  const refreshToken = generateRefreshToken();
+  const refreshTokenExpiry = calculateRefreshTokenExpiry();
+
+  await prisma.user.update({
+    where: { email },
+    data: {
+      refresh_token: refreshToken,
+      refresh_token_expiry: refreshTokenExpiry,
+    },
+  });
 
   return res.status(200).json({
     message: "Success",
