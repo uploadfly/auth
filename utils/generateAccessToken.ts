@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 
 const generateAccessToken = (uuid: string) => {
-  const secretKey = process.env.JWT_SECRET_KEY;
+  const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
   const payload = {
     user_id: uuid,
