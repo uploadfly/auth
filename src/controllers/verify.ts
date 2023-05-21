@@ -39,7 +39,8 @@ const verifyEmail = async (req: Request, res: Response) => {
       otp_expiry: null,
     },
   });
-  res.send(200).json({
+
+  return res.status(200).json({
     message: "Verified",
   });
 };
