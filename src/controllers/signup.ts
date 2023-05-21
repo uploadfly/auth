@@ -28,6 +28,18 @@ const signup = async (req: Request, res: Response) => {
 
   const otp = generateOTP();
 
+  const userExists = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (userExists) {
+    return res
+      .status(409)
+      .json({ message: "There is an account associated with this email" });
+  }
+
   await sendEmail({
     to: email,
     subject: "Signup OTP",
