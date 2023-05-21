@@ -5,6 +5,12 @@ import dayjs from "dayjs";
 const verifyEmail = async (req: Request, res: Response) => {
   const { otp } = req.body;
 
+  if (!otp) {
+    return res.status(400).json({
+      message: "OTP is required",
+    });
+  }
+
   const user = await prisma.user.findFirst({
     where: {
       otp,
@@ -30,8 +36,11 @@ const verifyEmail = async (req: Request, res: Response) => {
     data: {
       email_verified: true,
       otp: "",
-      otp_expiry: "",
+      otp_expiry: null,
     },
+  });
+  res.send(200).json({
+    message: "Verified",
   });
 };
 
