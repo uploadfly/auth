@@ -23,7 +23,7 @@ const verifyEmail = async (req: Request, res: Response) => {
     });
   }
 
-  if (dayjs().isBefore(dayjs(user.otp_expiry))) {
+  if (dayjs().isAfter(dayjs(user.otp_expiry))) {
     return res.status(400).json({
       message: "OTP has expired",
     });
