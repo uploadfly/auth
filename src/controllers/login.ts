@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { generateRefreshToken } from "../../utils/generateRefreshToken";
 import { calculateRefreshTokenExpiry } from "../../utils/calculateRefreshTokenExpiry";
 import dayjs from "dayjs";
+import { generateAccessToken } from "../../utils/generateAccessToken";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -42,6 +43,7 @@ const login = async (req: Request, res: Response) => {
 
   const refreshToken = generateRefreshToken();
   const refreshTokenExpiry = calculateRefreshTokenExpiry();
+  const accessToken = generateAccessToken(user.uuid);
 
   await prisma.user.update({
     where: { email },
@@ -60,7 +62,8 @@ const login = async (req: Request, res: Response) => {
 
   return res.status(200).json({
     message: "Success",
-    token: responseToken(),
+    accessToken,
+    refreshToken: responseToken(),
   });
 };
 
