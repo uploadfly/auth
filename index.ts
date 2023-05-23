@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import authRouter from "./src/routes";
-
+import passport from "./src/configs/passport";
 const app = express();
 
 app.use(bodyParser.json());
@@ -15,7 +15,15 @@ app.get("/", (req, res) => {
   );
 });
 
+app.use(passport.initialize());
+
 app.use("/", authRouter);
+
+app.get("/login", (req, res) => {
+  res.send("Login");
+});
+
+app.get("/user");
 
 const PORT = process.env.PORT || 1112;
 

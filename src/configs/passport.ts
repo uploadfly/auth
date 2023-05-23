@@ -13,13 +13,10 @@ passport.use(
       callbackURL: process.env.GITHUB_CALLBACK_URL!,
       passReqToCallback: true,
     },
-    (
-      req: any,
-      accessToken: any,
-      refreshToken: any,
-      profile: any,
-      done: (arg0: null, arg1: any) => any
-    ) => done(null, profile)
+    async (accessToken: any, refreshToken: any, profile: any, cb: any) => {
+      console.log(accessToken, refreshToken, profile);
+      return cb(null, profile);
+    }
   )
 );
 
