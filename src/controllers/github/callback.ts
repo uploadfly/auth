@@ -32,13 +32,13 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const user = userResponse.data;
       console.log(user);
 
-      res.redirect("/");
+      res.redirect(process.env.CLIENT_SUCCESS_REDIRECT as string);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
     }
   } catch (error) {
     console.error(error);
-    res.redirect("/login");
+    res.redirect(process.env.CLIENT_ERROR_REDIRECT as string);
   }
 };
 
