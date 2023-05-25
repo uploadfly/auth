@@ -53,6 +53,7 @@ const signup = async (req: Request, res: Response) => {
       password: bcrypt.hashSync(password, 10),
       otp,
       otp_expiry: dayjs().add(30, "minutes").toISOString(),
+      auth_method: "email and password",
     },
   });
 
