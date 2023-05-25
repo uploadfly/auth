@@ -23,17 +23,9 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         auth: accessToken,
       });
 
-      const userResponse = await octokit.request("GET /user", {
-        headers: {
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      });
+      const userResponse = await octokit.request("GET /user");
 
-      const userEmails = await octokit.request("GET /user/emails", {
-        headers: {
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      });
+      const userEmails = await octokit.request("GET /user/emails");
 
       const user = userResponse.data;
       console.log(userEmails);
