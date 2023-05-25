@@ -4,7 +4,12 @@ import { Octokit } from "octokit";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
-  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
+  const {
+    GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET,
+    CLIENT_SUCCESS_REDIRECT,
+    CLIENT_ERROR_REDIRECT,
+  } = process.env;
 
   try {
     const response = await axios.post(
@@ -30,13 +35,13 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const user = userResponse.data;
       console.log(userEmails);
 
-      res.redirect(process.env.CLIENT_SUCCESS_REDIRECT as string);
+      res.redirect(CLIENT_SUCCESS_REDIRECT as string);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
     }
   } catch (error) {
     console.error(error);
-    res.redirect(process.env.CLIENT_ERROR_REDIRECT as string);
+    res.redirect(CLIENT_ERROR_REDIRECT as string);
   }
 };
 
