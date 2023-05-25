@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import { Octokit } from "octokit";
+import prisma from "../../../prisma";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
@@ -33,7 +34,27 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const userEmails = await octokit.request("GET /user/emails");
 
       const user = userResponse.data;
-      console.log(userEmails);
+      const email = userEmails.data[0].email;
+
+      const userExists = await prisma.user.findFirst({
+        where: {
+          github_id: user.id,
+        },
+      });
+
+      if (userExists) {
+        return res.redirect("/");
+      }
+
+      await prisma.user.create({
+        data: {
+          email,
+          username: user.login,
+          email_verified: true,
+          github_id: user.id,
+          auth_method: "github",
+        },
+      });
 
       res.redirect(CLIENT_SUCCESS_REDIRECT as string);
     } else {
