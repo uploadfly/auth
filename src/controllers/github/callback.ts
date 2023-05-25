@@ -29,8 +29,14 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         },
       });
 
+      const userEmails = await octokit.request("GET /user/emails", {
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      });
+
       const user = userResponse.data;
-      console.log(user);
+      console.log(userEmails);
 
       res.redirect(process.env.CLIENT_SUCCESS_REDIRECT as string);
     } else {
