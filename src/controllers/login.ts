@@ -43,7 +43,6 @@ const login = async (req: Request, res: Response) => {
 
   const refreshToken = generateRefreshToken();
   const refreshTokenExpiry = calculateRefreshTokenExpiry();
-  const accessToken = generateAccessToken(user.uuid);
 
   await prisma.user.update({
     where: { email },
@@ -60,9 +59,9 @@ const login = async (req: Request, res: Response) => {
     return refreshToken;
   };
 
+  generateAccessToken(res, user.uuid);
   return res.status(200).json({
     message: "Success",
-    accessToken,
     refreshToken: responseToken(),
   });
 };
