@@ -2,6 +2,7 @@ import axios from "axios";
 import { Request, Response } from "express";
 import { Octokit } from "octokit";
 import prisma from "../../../prisma";
+import { generateAccessToken } from "../../../utils/generateAccessToken";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
@@ -43,10 +44,11 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       });
 
       if (userExists) {
+        generateAccessToken(res, userExists.uuid);
         return res.redirect("/");
       }
 
-      await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: {
           email,
           username: user.login,
@@ -55,6 +57,8 @@ const githubAuthCallback = async (req: Request, res: Response) => {
           auth_method: "github",
         },
       });
+
+      generateAccessToken(res, newUser.uuid);
 
       res.redirect(CLIENT_SUCCESS_REDIRECT as string);
     } else {
