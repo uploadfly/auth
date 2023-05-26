@@ -1,6 +1,7 @@
+import { Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 
-const generateAccessToken = (uuid: string) => {
+const generateAccessToken = (res: Response, uuid: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
   const payload = {
@@ -11,7 +12,14 @@ const generateAccessToken = (uuid: string) => {
 
   const accessToken = jwt.sign(payload, secretKey, { expiresIn });
 
-  return accessToken;
+  res.cookie("access_token", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 1000,
+  });
+
+  // return accessToken;
 };
 
 export { generateAccessToken };
