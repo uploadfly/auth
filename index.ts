@@ -2,12 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import authRouter from "./src/routes";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+  })
+);
 
 app.use("/", authRouter);
 
