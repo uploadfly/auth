@@ -45,7 +45,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
       if (userExists) {
         generateAccessToken(res, userExists.uuid);
-        return res.redirect("/");
+        return res.redirect(CLIENT_SUCCESS_REDIRECT as string);
       }
 
       const newUser = await prisma.user.create({
@@ -57,9 +57,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
           auth_method: "github",
         },
       });
-
       generateAccessToken(res, newUser.uuid);
-
       res.redirect(CLIENT_SUCCESS_REDIRECT as string);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
