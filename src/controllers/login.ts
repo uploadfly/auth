@@ -14,56 +14,62 @@ const login = async (req: Request, res: Response) => {
       message: "Email and password are required",
     });
   }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (!user) {
-    return res.status(400).json({
-      message: "Invalid email or password",
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
     });
-  }
 
-  const correctPassword = bcrypt.compareSync(password, user.password as string);
-
-  if (!correctPassword) {
-    return res.status(400).json({
-      message: "Invalid email or password",
-    });
-  }
-
-  if (!user.email_verified) {
-    return res.status(400).json({
-      message: "Email is not verified",
-    });
-  }
-
-  const refreshToken = generateRefreshToken();
-  const refreshTokenExpiry = calculateRefreshTokenExpiry();
-
-  await prisma.user.update({
-    where: { email },
-    data: {
-      refresh_token: refreshToken,
-      refresh_token_expiry: refreshTokenExpiry,
-    },
-  });
-
-  const responseToken = () => {
-    if (user.refresh_token && dayjs().isBefore(user.refresh_token_expiry)) {
-      return user.refresh_token;
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
     }
-    return refreshToken;
-  };
 
-  generateAccessToken(res, user.uuid);
-  return res.status(200).json({
-    message: "Success",
-    refreshToken: responseToken(),
-  });
+    const correctPassword = bcrypt.compareSync(
+      password,
+      user.password as string
+    );
+
+    if (!correctPassword) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    if (!user.email_verified) {
+      return res.status(400).json({
+        message: "Email is not verified",
+      });
+    }
+
+    const refreshToken = generateRefreshToken();
+    const refreshTokenExpiry = calculateRefreshTokenExpiry();
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        refresh_token: refreshToken,
+        refresh_token_expiry: refreshTokenExpiry,
+      },
+    });
+
+    const responseToken = () => {
+      if (user.refresh_token && dayjs().isBefore(user.refresh_token_expiry)) {
+        return user.refresh_token;
+      }
+      return refreshToken;
+    };
+
+    generateAccessToken(res, user.uuid);
+    return res.status(200).json({
+      message: "Success",
+      refreshToken: responseToken(),
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
 };
 
 export { login };
