@@ -6,6 +6,7 @@ import { resendOTP } from "./controllers/resend";
 import { githubAuth } from "./controllers/github";
 import { githubAuthCallback } from "./controllers/github/callback";
 import { protect } from "./middlewares/authMiddleware";
+import { getUser } from "./controllers/user";
 
 const router = expres.Router();
 
@@ -18,16 +19,15 @@ router.put("/verify", verifyEmail);
 router.put("/verify/resend", resendOTP);
 router.get("/github", githubAuth);
 router.get("/github/callback/", githubAuthCallback);
-router.post("/logout", async (req: Request, res: Response) => {
+router.post("/logout", protect, async (req: Request, res: Response) => {
   res.cookie("access_token", "", {
     httpOnly: true,
     expires: new Date(0),
   });
+  res.clearCookie("access_token");
   res.sendStatus(200);
 });
 
-router.get("/user", protect, (req: Request, res: Response) => {
-  res.send(req.user);
-});
+router.get("/user", protect, getUser);
 
 export default router;
