@@ -5,7 +5,7 @@ const generateAccessToken = (res: Response, uuid: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
   const payload = {
-    user_id: uuid,
+    uuid,
   };
 
   const expiresIn = "1h";
