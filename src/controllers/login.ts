@@ -62,12 +62,18 @@ const login = async (req: Request, res: Response) => {
       return refreshToken;
     };
 
+    const userData = {
+      username: user?.username,
+      email: user?.email,
+    };
     generateAccessToken(res, user.uuid);
     return res.status(200).json({
       message: "Success",
-      refreshToken: responseToken(),
+      user: userData,
+      // refreshToken: responseToken(),
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
