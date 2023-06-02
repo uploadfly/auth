@@ -26,7 +26,7 @@ const signup = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Passwords do not match" });
   }
 
-  const otp = generateOTP();
+  const otp = generateOTP(4);
 
   const userExists = await prisma.user.findUnique({
     where: {
