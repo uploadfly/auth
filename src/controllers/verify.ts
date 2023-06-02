@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
 import dayjs from "dayjs";
+import { generateAccessToken } from "../../utils/generateAccessToken";
 
 const verifyEmail = async (req: Request, res: Response) => {
   const { otp } = req.body;
@@ -29,7 +30,7 @@ const verifyEmail = async (req: Request, res: Response) => {
     });
   }
 
-  await prisma.user.update({
+  const verifiedUser = await prisma.user.update({
     where: {
       uuid: user.uuid,
     },
@@ -40,8 +41,16 @@ const verifyEmail = async (req: Request, res: Response) => {
     },
   });
 
+  const userData = {
+    username: verifiedUser?.username,
+    email: verifiedUser?.email,
+  };
+
+  generateAccessToken(res, verifiedUser.uuid);
+
   return res.status(200).json({
     message: "Verified",
+    user: userData,
   });
 };
 
