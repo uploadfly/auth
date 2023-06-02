@@ -44,24 +44,6 @@ const login = async (req: Request, res: Response) => {
       });
     }
 
-    const refreshToken = generateRefreshToken();
-    const refreshTokenExpiry = calculateRefreshTokenExpiry();
-
-    await prisma.user.update({
-      where: { email },
-      data: {
-        refresh_token: refreshToken,
-        refresh_token_expiry: refreshTokenExpiry,
-      },
-    });
-
-    const responseToken = () => {
-      if (user.refresh_token && dayjs().isBefore(user.refresh_token_expiry)) {
-        return user.refresh_token;
-      }
-      return refreshToken;
-    };
-
     const userData = {
       username: user?.username,
       email: user?.email,
