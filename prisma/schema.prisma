@@ -54,6 +54,8 @@ model folder {
   parent_folder_id String   @default("")
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
+  uuid             String
+  fly_id           String
 }
 
 model file {
@@ -65,4 +67,7 @@ model file {
   updated_at       DateTime @updatedAt
   type             String
   uploaded_via     String
+  size             String   @default("")
+  path             String
+  fly_id           String
 }
