@@ -50,6 +50,7 @@
     "octokit": "^2.0.18",
     "otpauth": "^9.1.2",
     "randomstring": "^1.2.3",
+    "uuid": "^9.0.0",
     "validator": "^13.9.0"
   }
 }
