@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
 import bcrypt from "bcrypt";
-import { generateRefreshToken } from "../../utils/generateRefreshToken";
-import { calculateRefreshTokenExpiry } from "../../utils/calculateRefreshTokenExpiry";
-import dayjs from "dayjs";
 import { generateAccessToken } from "../../utils/generateAccessToken";
 
 const login = async (req: Request, res: Response) => {
