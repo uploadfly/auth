@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-import { Octokit } from "octokit";
 dotenv.config();
 
 const githubAuth = async (req: Request, res: Response) => {
