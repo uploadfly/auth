@@ -51,6 +51,8 @@ const login = async (req: Request, res: Response) => {
       user: userData,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ message: "Something went wrong" });
   }
 };
