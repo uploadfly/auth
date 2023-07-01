@@ -1,6 +1,5 @@
 import { Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
-import { generateOTP } from "./generateOtp";
 import generate from "boring-name-generator";
 
 const generateAccessToken = (res: Response, uuid: string) => {
