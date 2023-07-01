@@ -43,8 +43,6 @@ const login = async (req: Request, res: Response) => {
 
     generateAccessToken(res, user?.uuid);
 
-    console.log(generateAccessToken(res, user?.uuid));
-
     const userData = {
       username: user?.username,
       email: user?.email,
