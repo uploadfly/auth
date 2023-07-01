@@ -11,18 +11,19 @@ const generateAccessToken = (res: Response, uuid: string) => {
 
   const expiresIn = "1h";
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   const accessToken = jwt.sign(payload, secretKey, { expiresIn });
 
   res.cookie("access_token", accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: isProduction ? "none" : "strict",
     maxAge: 60 * 60 * 1000,
   });
 
   res.cookie("exp", generate().dashed, {
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "strict",
     maxAge: 60 * 60 * 1000,
   });
 };
