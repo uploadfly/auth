@@ -6,14 +6,9 @@ import { generateAccessToken } from "../../../utils/generateAccessToken";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
-  const {
-    GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET,
-    CLIENT_SUCCESS_REDIRECT,
-    CLIENT_ERROR_REDIRECT,
-  } = process.env;
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, CLIENT_URL } = process.env;
 
-  const redirectUrl = `${CLIENT_SUCCESS_REDIRECT}`;
+  const clientUrl = `${CLIENT_URL}`;
 
   try {
     const response = await axios.post(
@@ -47,7 +42,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
       if (userExists) {
         generateAccessToken(res, userExists.uuid);
-        return res.redirect(`${redirectUrl}/${userExists?.username}`);
+        return res.redirect(`${clientUrl}/${userExists?.username}`);
       }
 
       const newUser = await prisma.user.create({
@@ -60,13 +55,13 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         },
       });
       generateAccessToken(res, newUser.uuid);
-      res.redirect(`${redirectUrl}/${newUser?.username}`);
+      res.redirect(`${clientUrl}/${newUser?.username}`);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
     }
   } catch (error) {
     console.error(error);
-    res.redirect(CLIENT_ERROR_REDIRECT as string);
+    res.redirect(`${clientUrl}/login?status=failed`);
   }
 };
 
