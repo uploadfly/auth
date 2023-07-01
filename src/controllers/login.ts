@@ -41,11 +41,14 @@ const login = async (req: Request, res: Response) => {
       });
     }
 
+    generateAccessToken(res, user?.uuid);
+
+    console.log(generateAccessToken(res, user?.uuid));
+
     const userData = {
       username: user?.username,
       email: user?.email,
     };
-    generateAccessToken(res, user.uuid);
     return res.status(200).json({
       message: "Success",
       user: userData,
