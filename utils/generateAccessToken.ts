@@ -16,6 +16,7 @@ const generateAccessToken = (res: Response, uuid: string) => {
   const accessToken = jwt.sign(payload, secretKey, { expiresIn });
 
   res.cookie("access_token", accessToken, {
+    domain: isProd ? ".uploadfly.cloud" : undefined,
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? "none" : "strict",
@@ -23,6 +24,7 @@ const generateAccessToken = (res: Response, uuid: string) => {
   });
 
   res.cookie("exp", generate().dashed, {
+    domain: isProd ? ".uploadfly.cloud" : undefined,
     secure: isProd,
     sameSite: isProd ? "none" : "strict",
     maxAge: 60 * 60 * 1000,
