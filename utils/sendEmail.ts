@@ -9,11 +9,15 @@ const sendEmail = async ({
   subject: string;
   body: string;
 }) => {
-  await plunk.emails.send({
-    to,
-    subject,
-    body,
-  });
+  try {
+    await plunk.emails.send({
+      to,
+      subject,
+      body,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export { sendEmail };
