@@ -46,7 +46,7 @@ const signup = async (req: Request, res: Response) => {
   await prisma.user.create({
     data: {
       email,
-      username: email.split("@")[0],
+      username: email.split("@")[0].toLowerCase(),
       password: bcrypt.hashSync(password, 10),
       otp,
       otp_expiry: dayjs().add(30, "minutes").toISOString(),
