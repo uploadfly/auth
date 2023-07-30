@@ -1,7 +1,7 @@
 import { sendEmail } from "../utils/sendEmail";
 
-const sendOTP = (to: string, otp: string) => {
-  sendEmail({
+const sendOTP = async (to: string, otp: string) => {
+  await sendEmail({
     to,
     subject: `${otp} is your OTP`,
     body: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
