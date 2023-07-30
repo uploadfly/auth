@@ -49,7 +49,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const newUser = await prisma.user.create({
         data: {
           email,
-          username: user.login,
+          username: user.login.toLowerCase(),
           email_verified: true,
           github_id: user.id,
           auth_method: "github",
