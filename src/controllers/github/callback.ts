@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Octokit } from "octokit";
 import prisma from "../../../prisma";
 import { generateAccessToken } from "../../../utils/generateAccessToken";
+import welcomeToUploadfly from "../../../emails/welcomeToUF";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
@@ -55,6 +56,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         },
       });
       generateAccessToken(res, newUser.uuid);
+      welcomeToUploadfly(newUser.email);
       res.redirect(`${clientUrl}/${newUser?.username}`);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
