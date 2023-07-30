@@ -5,6 +5,7 @@ import { generateOTP } from "../../utils/generateOtp";
 import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
 import dayjs from "dayjs";
+import sendOTP from "../../emails/sendOTP";
 
 const signup = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
@@ -40,11 +41,7 @@ const signup = async (req: Request, res: Response) => {
       .json({ message: "There is an account associated with this email" });
   }
 
-  await sendEmail({
-    to: email,
-    subject: "Signup OTP",
-    body: `Your OTP is ${otp}`,
-  });
+  sendOTP(email, otp);
 
   await prisma.user.create({
     data: {

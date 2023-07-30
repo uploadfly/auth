@@ -6,6 +6,7 @@ import { resendOTP } from "./controllers/resend";
 import { githubAuth } from "./controllers/github";
 import { githubAuthCallback } from "./controllers/github/callback";
 import { logout } from "./controllers/logout";
+import sendOTP from "../emails/sendOTP";
 
 const router = expres.Router();
 
@@ -16,5 +17,9 @@ router.put("/verify/resend", resendOTP);
 router.get("/github", githubAuth);
 router.get("/github/callback/", githubAuthCallback);
 router.post("/logout", logout);
+router.get("/email", (req, res) => {
+  sendOTP("bossoncode@gmail.com", "o8s2");
+  res.send("Email Sent");
+});
 
 export default router;
