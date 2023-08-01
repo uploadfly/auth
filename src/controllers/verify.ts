@@ -3,7 +3,7 @@ import prisma from "../../prisma";
 import dayjs from "dayjs";
 import { generateAccessToken } from "../../utils/generateAccessToken";
 import welcomeToUploadfly from "../../emails/welcomeToUF";
-import subToPlunk from "../../utils/subcribeToPlunk";
+// import subToPlunk from "../../utils/subcribeToPlunk";
 
 const verifyEmail = async (req: Request, res: Response) => {
   const { otp } = req.body;

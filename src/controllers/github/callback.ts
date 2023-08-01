@@ -4,7 +4,7 @@ import { Octokit } from "octokit";
 import prisma from "../../../prisma";
 import { generateAccessToken } from "../../../utils/generateAccessToken";
 import welcomeToUploadfly from "../../../emails/welcomeToUF";
-import subToPlunk from "../../../utils/subcribeToPlunk";
+// import subToPlunk from "../../../utils/subcribeToPlunk";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
