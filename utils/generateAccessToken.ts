@@ -43,7 +43,7 @@ const generateAccessToken = async (res: Response, uuid: string) => {
       httpOnly: true,
       secure: isProd,
       sameSite: isProd ? "none" : "strict",
-      maxAge: 60 * 60 * 1000,
+      expires: dayjs().add(15, "m").toDate(),
     });
 
     res.cookie("refresh_token", refreshToken, {
