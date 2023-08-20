@@ -1,8 +1,9 @@
 import { Response } from "express";
-import jwt, { Secret } from "jsonwebtoken";
-import generate from "boring-name-generator";
+import { Secret, sign } from "jsonwebtoken";
+import prisma from "../prisma";
+import dayjs from "dayjs";
 
-const generateAccessToken = (res: Response, uuid: string) => {
+const generateAccessToken = async (res: Response, uuid: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
   const payload = {
@@ -10,25 +11,50 @@ const generateAccessToken = (res: Response, uuid: string) => {
   };
 
   const isProd = process.env.NODE_ENV === "production";
+  try {
+    const userExistingToken = await prisma.refreshToken.findUnique({
+      where: {
+        user_id: uuid,
+      },
+    });
 
-  const expiresIn = "1h";
+    if (dayjs().isAfter(dayjs(userExistingToken?.expires_at))) {
+      await prisma.refreshToken.delete({ where: { user_id: uuid } });
+      res.status(401).json({ message: "Token has expired" });
+    }
 
-  const accessToken = jwt.sign(payload, secretKey, { expiresIn });
+    const accessToken = sign(payload, secretKey, { expiresIn: "15m" });
 
-  res.cookie("access_token", accessToken, {
-    domain: isProd ? ".uploadfly.cloud" : undefined,
-    httpOnly: true,
-    secure: isProd,
-    sameSite: isProd ? "none" : "strict",
-    maxAge: 60 * 60 * 1000,
-  });
+    const refreshToken =
+      userExistingToken?.token ||
+      sign(payload, secretKey, { expiresIn: "90d" });
 
-  res.cookie("exp", generate().dashed, {
-    domain: isProd ? ".uploadfly.cloud" : undefined,
-    secure: isProd,
-    sameSite: isProd ? "none" : "strict",
-    maxAge: 60 * 60 * 1000,
-  });
+    if (!userExistingToken) {
+      await prisma.refreshToken.create({
+        data: {
+          token: refreshToken,
+          user_id: uuid,
+          expires_at: dayjs().add(90, "days").toISOString(),
+        },
+      });
+    }
+    res.cookie("access_token", accessToken, {
+      domain: isProd ? ".uploadfly.cloud" : undefined,
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "strict",
+      maxAge: 60 * 60 * 1000,
+    });
+
+    res.cookie("refresh_token", refreshToken, {
+      domain: isProd ? ".uploadfly.cloud" : undefined,
+      secure: isProd,
+      sameSite: isProd ? "none" : "strict",
+      expires: dayjs().add(90, "days").toDate(),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export { generateAccessToken };
