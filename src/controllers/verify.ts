@@ -48,7 +48,7 @@ const verifyEmail = async (req: Request, res: Response) => {
     email: verifiedUser?.email,
   };
 
-  generateAccessToken(res, verifiedUser.uuid);
+  await generateAccessToken(res, verifiedUser.uuid);
 
   welcomeToUploadfly(verifiedUser.email);
   // subToPlunk(verifiedUser.email)
