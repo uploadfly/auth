@@ -41,7 +41,7 @@ const login = async (req: Request, res: Response) => {
       });
     }
 
-    generateAccessToken(res, user?.uuid);
+    await generateAccessToken(res, user?.uuid);
 
     const userData = {
       username: user?.username,
