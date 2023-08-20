@@ -35,8 +35,6 @@ const generateAccessToken = async (res: Response, uuid: string) => {
       userExistingToken?.token ||
       sign(payload, secretKey, { expiresIn: "90d" });
 
-    console.log(refreshToken.length);
-
     if (!userExistingToken) {
       await prisma.refreshToken.create({
         data: {
