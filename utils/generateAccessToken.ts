@@ -57,6 +57,7 @@ const generateAccessToken = async (res: Response, uuid: string) => {
       secure: isProd,
       sameSite: isProd ? "none" : "strict",
       expires: dayjs().add(90, "days").toDate(),
+      httpOnly: true,
     });
   } catch (error) {
     console.log(error);
