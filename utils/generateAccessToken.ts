@@ -6,12 +6,18 @@ import dayjs from "dayjs";
 const generateAccessToken = async (res: Response, uuid: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
-  const payload = {
-    uuid,
-  };
-
   const isProd = process.env.NODE_ENV === "production";
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        uuid,
+      },
+    });
+    const payload = {
+      uuid,
+      username: user?.username,
+    };
+
     const userExistingToken = await prisma.refreshToken.findUnique({
       where: {
         user_id: uuid,
@@ -28,6 +34,8 @@ const generateAccessToken = async (res: Response, uuid: string) => {
     const refreshToken =
       userExistingToken?.token ||
       sign(payload, secretKey, { expiresIn: "90d" });
+
+    console.log(refreshToken.length);
 
     if (!userExistingToken) {
       await prisma.refreshToken.create({
