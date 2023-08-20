@@ -43,7 +43,10 @@ const refreshToken = async (req: Request, res: Response) => {
       sameSite: isProd ? "none" : "strict",
       expires: dayjs().add(15, "m").toDate(),
     });
+    res.send("ok");
   } catch (error) {
     console.log(error);
   }
 };
+
+export { refreshToken };
