@@ -4,6 +4,7 @@ import { Octokit } from "octokit";
 import prisma from "../../../prisma";
 import { generateAccessToken } from "../../../utils/generateAccessToken";
 import welcomeToUploadfly from "../../../emails/welcomeToUF";
+import { logsnag } from "../../configs/logsnag";
 // import subToPlunk from "../../../utils/subcribeToPlunk";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
@@ -55,6 +56,13 @@ const githubAuthCallback = async (req: Request, res: Response) => {
           github_id: user.id,
           auth_method: "github",
         },
+      });
+      await logsnag.publish({
+        channel: "user-signup",
+        event: "New user signup",
+        description: newUser?.email,
+        icon: "💯",
+        notify: true,
       });
       generateAccessToken(res, newUser.uuid);
       welcomeToUploadfly(newUser.email);
