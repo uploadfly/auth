@@ -6,6 +6,7 @@ import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
 import dayjs from "dayjs";
 import sendOTP from "../../emails/sendOTP";
+import { logsnag } from "../configs/logsnag";
 
 const signup = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
@@ -42,6 +43,14 @@ const signup = async (req: Request, res: Response) => {
   }
 
   sendOTP(email, otp);
+
+  await logsnag.publish({
+    channel: "user-signup",
+    event: "New user signup",
+    description: email,
+    icon: "💯",
+    notify: true,
+  });
 
   await prisma.user.create({
     data: {
