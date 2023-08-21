@@ -46,6 +46,7 @@
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
+    "logsnag": "^0.1.8",
     "nodemon": "^2.0.21",
     "octokit": "^2.0.18",
     "otpauth": "^9.1.2",
