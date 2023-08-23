@@ -5,7 +5,6 @@ import prisma from "../../../prisma";
 import { generateAccessToken } from "../../../utils/generateAccessToken";
 import welcomeToUploadfly from "../../../emails/welcomeToUF";
 import { logsnag } from "../../configs/logsnag";
-// import subToPlunk from "../../../utils/subcribeToPlunk";
 
 const githubAuthCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
@@ -44,7 +43,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       });
 
       if (userExists) {
-        generateAccessToken(res, userExists.uuid);
+        await generateAccessToken(res, userExists.uuid);
         return res.redirect(`${clientUrl}/${userExists?.username}`);
       }
 
@@ -64,9 +63,10 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         icon: "💯",
         notify: true,
       });
-      generateAccessToken(res, newUser.uuid);
+
       welcomeToUploadfly(newUser.email);
-      // subToPlunk(newUser.email)
+
+      await generateAccessToken(res, newUser.uuid);
       res.redirect(`${clientUrl}/${newUser?.username}`);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
