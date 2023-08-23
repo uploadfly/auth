@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import prisma from "../../prisma";
 import validator from "validator";
 import { generateOTP } from "../../utils/generateOtp";
-import { sendEmail } from "../../utils/sendEmail";
 import bcrypt from "bcrypt";
 import dayjs from "dayjs";
 import sendOTP from "../../emails/sendOTP";
