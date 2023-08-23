@@ -4,7 +4,11 @@ import dayjs from "dayjs";
 import bcrypt from "bcrypt";
 
 const resetPassword = async (req: Request, res: Response) => {
-  const { otp, password, confirmPassword } = req.body;
+  const {
+    otp,
+    password,
+    confirmPassword,
+  }: { otp: string; password: string; confirmPassword: string } = req.body;
 
   if (!otp) {
     return res.status(400).json({
@@ -17,14 +21,23 @@ const resetPassword = async (req: Request, res: Response) => {
       message: "Password is required",
     });
   }
+
+  if (password.length < 8) {
+    return res.status(400).json({
+      message: "Password must be at least 8 characters",
+    });
+  }
+
   if (password !== confirmPassword) {
     return res.status(400).json({
       message: "Passwords do not match",
     });
   }
 
-  const user = await prisma.user.findUnique({
-    where: otp,
+  const user = await prisma.user.findFirst({
+    where: {
+      otp,
+    },
   });
 
   if (!user) {
