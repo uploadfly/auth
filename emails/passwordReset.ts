@@ -170,8 +170,6 @@ const passwordReset = async (to: string, otp: string) => {
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                    <p style="line-height: 140%;">Welcome to Uploadfly!</p>
-                                    <p style="line-height: 140%;">&nbsp;</p>
                                     <p style="line-height: 140%;">Use the one-time pin below to reset your password:</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
                                   </div>
