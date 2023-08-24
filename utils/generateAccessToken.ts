@@ -2,6 +2,7 @@ import { Response } from "express";
 import { Secret, sign } from "jsonwebtoken";
 import prisma from "../prisma";
 import dayjs from "dayjs";
+import * as Sentry from "@sentry/node";
 
 const generateAccessToken = async (res: Response, uuid: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
@@ -60,7 +61,7 @@ const generateAccessToken = async (res: Response, uuid: string) => {
       httpOnly: true,
     });
   } catch (error) {
-    console.log(error);
+    Sentry.captureException(error);
   }
 };
 
