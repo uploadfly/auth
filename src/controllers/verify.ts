@@ -3,6 +3,7 @@ import prisma from "../../prisma";
 import dayjs from "dayjs";
 import { generateAccessToken } from "../../utils/generateAccessToken";
 import welcomeToUploadfly from "../../emails/welcomeToUF";
+import { isProd } from "../../utils/isProd";
 // import subToPlunk from "../../utils/subcribeToPlunk";
 
 const verifyEmail = async (req: Request, res: Response) => {
@@ -50,7 +51,7 @@ const verifyEmail = async (req: Request, res: Response) => {
 
   await generateAccessToken(res, verifiedUser.uuid);
 
-  welcomeToUploadfly(verifiedUser.email);
+  isProd && welcomeToUploadfly(verifiedUser.email);
   // subToPlunk(verifiedUser.email)
 
   return res.status(200).json({
