@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import dayjs from "dayjs";
 import sendOTP from "../../emails/sendOTP";
 import { logsnag } from "../configs/logsnag";
+import { isProd } from "../../utils/isProd";
 
 const signup = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
@@ -41,20 +42,38 @@ const signup = async (req: Request, res: Response) => {
       .json({ message: "There is an account associated with this email" });
   }
 
-  sendOTP(email, otp);
+  let user_name;
 
-  await logsnag.publish({
-    channel: "user-signup",
-    event: "New user signup",
-    description: email,
-    icon: "💯",
-    notify: true,
+  const doesUsernameExist = await prisma.user.findUnique({
+    where: {
+      username: email.split("@")[0].toLowerCase(),
+    },
   });
+
+  if (doesUsernameExist) {
+    user_name =
+      email.split("@")[0].toLowerCase() + Math.floor(Math.random() * 100);
+  } else {
+    user_name = email.split("@")[0].toLowerCase();
+  }
+
+  if (isProd) {
+    sendOTP(email, otp);
+    await logsnag.publish({
+      channel: "user-signup",
+      event: "New user signup",
+      description: email,
+      icon: "💯",
+      notify: true,
+    });
+  } else {
+    console.log(otp);
+  }
 
   await prisma.user.create({
     data: {
       email,
-      username: email.split("@")[0].toLowerCase(),
+      username: user_name,
       password: bcrypt.hashSync(password, 10),
       otp,
       otp_expiry: dayjs().add(30, "minutes").toISOString(),
