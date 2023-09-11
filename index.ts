@@ -6,26 +6,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import * as Sentry from "@sentry/node";
+import { record } from "@logdrop/express";
 const app = express();
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [
-    new Sentry.Integrations.Http({
-      tracing: true,
-    }),
-
-    new Sentry.Integrations.Express({
-      app,
-    }),
-  ],
-
-  tracesSampleRate: 1.0,
-});
-
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.tracingHandler());
-
+app.use(record(process.env.LOGDROP_API_KEY!));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
