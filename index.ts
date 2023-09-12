@@ -6,7 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import * as Sentry from "@sentry/node";
-import { record } from "@logdrop/express";
+import { record } from "@logdrop/node";
 const app = express();
 
 app.use(record(process.env.LOGDROP_API_KEY!));

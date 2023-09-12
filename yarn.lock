@@ -27,14 +27,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@logdrop/express@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.npmjs.org/@logdrop/express/-/express-0.1.6.tgz"
-  integrity sha512-Io7rtcnxHdidFt9Fp34q3nU9Nj1edDsqbCW9h3LjOgr7igMlD8WkEE7OXFtqUsF5siqFkRJ9yS8cKV5q5dBapQ==
+"@logdrop/node@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/@logdrop/node/-/node-0.0.3.tgz"
+  integrity sha512-wDsrlyW9YjA20UmciFG1FUEO+ZUEVoH9o8hJwPgD1RyYFJC0ldUf9pYBRLvblbpm6tZDgLu/f7vstxrsRXSb/Q==
   dependencies:
     axios "^1.5.0"
     body-parser "^1.20.2"
-    express "^4.18.2"
     request-ip "^3.3.0"
 
 "@mapbox/node-pre-gyp@^1.0.10":

@@ -26,7 +26,7 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
-    "@logdrop/express": "^0.1.6",
+    "@logdrop/node": "^0.0.3",
     "@plunk/node": "^1.1.1",
     "@prisma/client": "^4.16.2",
     "@sentry/node": "^7.64.0",
