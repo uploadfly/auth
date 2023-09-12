@@ -12,7 +12,9 @@ const app = express();
 app.use(record(process.env.LOGDROP_API_KEY!));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(record(process.env.LOGDROP_API_KEY!));
 app.use(cookieParser());
+
 const corsOptions = {
   origin: process.env.CLIENT_URL,
   credentials: true,
