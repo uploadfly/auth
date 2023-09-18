@@ -34,7 +34,8 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const userEmails = await octokit.request("GET /user/emails");
 
       const user = userResponse.data;
-      const email = userEmails.data[0].email;
+      const email = userEmails.data.find((email) => email.primary)
+        ?.email as string;
 
       const userExists = await prisma.user.findFirst({
         where: {
