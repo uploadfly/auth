@@ -40,7 +40,7 @@ const verifyEmail = async (req: Request, res: Response) => {
     },
     data: {
       email_verified: true,
-      otp: "",
+      otp: null,
       otp_expiry: null,
     },
   });
