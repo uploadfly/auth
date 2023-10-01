@@ -7,7 +7,7 @@ import { isProd } from "../../utils/isProd";
 // import subToPlunk from "../../utils/subcribeToPlunk";
 
 const verifyEmail = async (req: Request, res: Response) => {
-  const { otp } = req.body;
+  const { otp, email } = req.body;
 
   if (!otp) {
     return res.status(400).json({
@@ -18,18 +18,19 @@ const verifyEmail = async (req: Request, res: Response) => {
   const user = await prisma.user.findFirst({
     where: {
       otp,
+      email,
     },
   });
 
   if (!user) {
     return res.status(400).json({
-      message: "Invalid OTP",
+      message: "Invalid validation link",
     });
   }
 
   if (dayjs().isAfter(dayjs(user.otp_expiry))) {
     return res.status(400).json({
-      message: "OTP has expired",
+      message: "Validation link has expired",
     });
   }
 
