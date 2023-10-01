@@ -29,6 +29,16 @@ const verifyEmail = async (req: Request, res: Response) => {
   }
 
   if (dayjs().isAfter(dayjs(user.otp_expiry))) {
+    await prisma.user.update({
+      where: {
+        uuid: user.uuid,
+      },
+      data: {
+        otp: "",
+        otp_expiry: null,
+      },
+    });
+
     return res.status(400).json({
       message: "Validation link has expired",
     });
