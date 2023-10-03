@@ -44,7 +44,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       });
 
       if (userExists) {
-        await generateAccessToken(res, userExists.uuid);
+        await generateAccessToken(res, userExists.id);
         return res.redirect(`${clientUrl}/${userExists?.username}`);
       }
 
@@ -67,7 +67,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
       welcomeToUploadfly(newUser.email);
 
-      await generateAccessToken(res, newUser.uuid);
+      await generateAccessToken(res, newUser.id);
       res.redirect(`${clientUrl}/${newUser?.username}`);
     } else {
       throw new Error("Failed to obtain access token from GitHub");

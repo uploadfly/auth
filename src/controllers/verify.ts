@@ -36,7 +36,7 @@ const verifyEmail = async (req: Request, res: Response) => {
 
   const verifiedUser = await prisma.user.update({
     where: {
-      uuid: user.uuid,
+      id: user.id,
     },
     data: {
       email_verified: true,
@@ -50,7 +50,7 @@ const verifyEmail = async (req: Request, res: Response) => {
     email: verifiedUser?.email,
   };
 
-  await generateAccessToken(res, verifiedUser.uuid);
+  await generateAccessToken(res, verifiedUser.id);
 
   isProd && welcomeToUploadfly(verifiedUser.email);
   // subToPlunk(verifiedUser.email)

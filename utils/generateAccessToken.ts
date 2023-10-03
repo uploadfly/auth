@@ -4,29 +4,33 @@ import prisma from "../prisma";
 import dayjs from "dayjs";
 import Sentry from "../sentry";
 
-const generateAccessToken = async (res: Response, uuid: string) => {
+const generateAccessToken = async (res: Response, id: string) => {
   const secretKey = process.env.JWT_SECRET_KEY as Secret;
 
   const isProd = process.env.NODE_ENV === "production";
   try {
     const user = await prisma.user.findUnique({
       where: {
-        uuid,
+        id,
       },
     });
     const payload = {
-      uuid,
+      id,
       username: user?.username,
     };
 
-    const userExistingToken = await prisma.refreshToken.findUnique({
+    const userExistingToken = await prisma.refreshToken.findFirst({
       where: {
-        user_id: uuid,
+        user_id: id,
       },
     });
 
     if (dayjs().isAfter(dayjs(userExistingToken?.expires_at))) {
-      await prisma.refreshToken.delete({ where: { user_id: uuid } });
+      await prisma.refreshToken.delete({
+        where: {
+          id: userExistingToken?.id,
+        },
+      });
       res.status(401).json({ message: "Token has expired" });
     }
 
@@ -40,7 +44,7 @@ const generateAccessToken = async (res: Response, uuid: string) => {
       await prisma.refreshToken.create({
         data: {
           token: refreshToken,
-          user_id: uuid,
+          user_id: id,
           expires_at: dayjs().add(90, "days").toISOString(),
         },
       });

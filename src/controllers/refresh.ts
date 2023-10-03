@@ -13,11 +13,11 @@ const refreshToken = async (req: Request, res: Response) => {
 
   try {
     const decoded = verify(refreshToken, process.env.JWT_SECRET_KEY!) as {
-      uuid: string;
+      id: string;
     };
     const user = await prisma.user.findUnique({
       where: {
-        uuid: decoded.uuid,
+        id: decoded.id,
       },
     });
 
@@ -27,7 +27,7 @@ const refreshToken = async (req: Request, res: Response) => {
 
     const accessToken = sign(
       {
-        uuid: user.uuid,
+        id: user.id,
         username: user.username,
       },
       process.env.JWT_SECRET_KEY!,
