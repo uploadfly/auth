@@ -7,11 +7,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import * as Sentry from "@sentry/node";
 import { record } from "@logdrop/node";
+import { isProd } from "./utils/isProd";
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(record(process.env.LOGDROP_API_KEY!));
+isProd && app.use(record(process.env.LOGDROP_API_KEY!));
 app.use(cookieParser());
 
 const corsOptions = {
