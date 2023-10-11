@@ -50,7 +50,7 @@ const generateAccessToken = async (res: Response, id: string) => {
       });
     }
     res.cookie("access_token", accessToken, {
-      domain: isProd ? ".uploadfly.cloud" : undefined,
+      domain: isProd ? ".uploadfly.co" : undefined,
       httpOnly: true,
       secure: isProd,
       sameSite: isProd ? "none" : "strict",
@@ -58,7 +58,7 @@ const generateAccessToken = async (res: Response, id: string) => {
     });
 
     res.cookie("refresh_token", refreshToken, {
-      domain: isProd ? ".uploadfly.cloud" : undefined,
+      domain: isProd ? ".uploadfly.co" : undefined,
       secure: isProd,
       sameSite: isProd ? "none" : "strict",
       expires: dayjs().add(90, "days").toDate(),
