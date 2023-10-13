@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prisma from "../../prisma";
 import validator from "validator";
 import { generateOTP } from "../../utils/generateOtp";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
 import sendOTP from "../../emails/sendOTP";
 import { logsnag } from "../configs/logsnag";
