@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { generateAccessToken } from "../../utils/generateAccessToken";
 
 const login = async (req: Request, res: Response) => {
