@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
 import dayjs from "dayjs";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const resetPassword = async (req: Request, res: Response) => {
   const {
