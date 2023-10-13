@@ -34,7 +34,6 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/randomstring": "^1.1.8",
-    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "boring-name-generator": "^1.0.3",
     "connect": "^3.7.0",
