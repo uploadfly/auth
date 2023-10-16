@@ -176,8 +176,8 @@ const welcomeToUploadfly = async (to: string) => {
                                     <p style="line-height: 140%;">&nbsp;</p>
                                     <p style="line-height: 140%;">To kick things off, here are a few things you can do:</p>
                                     <ul>
-                                      <li style="line-height: 19.6px;"><a target="_blank" href="https://beta.uploadfly.cloud/launch" rel="noopener">Create a new project</a></li>
-                                      <li style="line-height: 19.6px;">Check out the <a target="_blank" href="https://docs.uploadfly.cloud" rel="noopener">docs</a></li>
+                                      <li style="line-height: 19.6px;"><a target="_blank" href="https://beta.uploadfly.co/launch" rel="noopener">Create a new project</a></li>
+                                      <li style="line-height: 19.6px;">Check out the <a target="_blank" href="https://docs.uploadfly.co" rel="noopener">docs</a></li>
                                       <li style="line-height: 19.6px;">Star the <a target="_blank" href="https://github.com/uploadfly/uploadfly" rel="noopener">GitHub repo</a></li>
                                       <li style="line-height: 19.6px;">Follow on <a target="_blank" href="https://x.com/uploadflycloud" rel="noopener"><span style="text-decoration: line-through; line-height: 19.6px;">Twittter</span> X</a></li>
                                     </ul>
