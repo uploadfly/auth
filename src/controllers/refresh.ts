@@ -37,7 +37,7 @@ const refreshToken = async (req: Request, res: Response) => {
     const isProd = process.env.NODE_ENV === "production";
 
     res.cookie("access_token", accessToken, {
-      domain: isProd ? ".uploadfly.cloud" : undefined,
+      domain: isProd ? ".uploadfly.co" : undefined,
       httpOnly: true,
       secure: isProd,
       sameSite: isProd ? "none" : "strict",
