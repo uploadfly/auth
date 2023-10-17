@@ -3,7 +3,7 @@ import { sendEmail } from "../utils/sendEmail";
 const welcomeToUploadfly = async (to: string) => {
   await sendEmail({
     to,
-    subject: "Welcome to Uploadfly",
+    subject: "Welcome to UploadFly",
     body: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     
@@ -157,7 +157,7 @@ const welcomeToUploadfly = async (to: string) => {
                               <tr>
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
     
-                                  <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 26px; font-weight: 700;">Welcome to Uploadfly</h1>
+                                  <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 26px; font-weight: 700;">Welcome to UploadFly</h1>
     
                                 </td>
                               </tr>
@@ -172,7 +172,7 @@ const welcomeToUploadfly = async (to: string) => {
                                   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                     <p style="line-height: 140%;">Hey,</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
-                                    <p style="line-height: 140%;">My name is Akinkunmi, and I'm the creator of Uploadfly - an open-source cloud infrastructure that makes it easy for developers to upload files from their applications. I'm excited to have you on board.</p>
+                                    <p style="line-height: 140%;">My name is Akinkunmi, and I'm the creator of UploadFly - an open-source cloud infrastructure that makes it easy for developers to upload files from their applications. I'm excited to have you on board.</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
                                     <p style="line-height: 140%;">To kick things off, here are a few things you can do:</p>
                                     <ul>

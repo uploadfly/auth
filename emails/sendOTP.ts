@@ -170,7 +170,7 @@ const sendOTP = async (to: string, otp: string) => {
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                    <p style="line-height: 140%;">Welcome to Uploadfly!</p>
+                                    <p style="line-height: 140%;">Welcome to UploadFly!</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
                                     <p style="line-height: 140%;">Use the one-time pin below to verify your email:</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
@@ -208,7 +208,7 @@ const sendOTP = async (to: string, otp: string) => {
                                   <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                     <p style="line-height: 140%;">Punch it in, and you're good to go.</p>
                                     <p style="line-height: 140%;">&nbsp;</p>
-                                    <p style="line-height: 140%;">If you didn't signup for Uploadfly, you can safely ignore this email.</p>
+                                    <p style="line-height: 140%;">If you didn't signup for UploadFly, you can safely ignore this email.</p>
                                   </div>
     
                                 </td>
