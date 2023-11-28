@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-import * as Sentry from "@sentry/node";
 import { record } from "@logdrop/node";
 import { isProd } from "./utils/isProd";
 const app = express();
@@ -22,8 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/", authRouter);
-
-app.use(Sentry.Handlers.errorHandler());
 
 const PORT = process.env.PORT || 1112;
 
