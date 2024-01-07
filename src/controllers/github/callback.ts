@@ -36,8 +36,6 @@ const githubAuthCallback = async (req: Request, res: Response) => {
      
 
       const user = userResponse.data;
-
-      console.log(user)
       
       const email = userEmails.data.find((email) => email.primary)
         ?.email as string;
@@ -56,15 +54,20 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         return res.redirect(`${clientUrl}/${userExists?.username}`);
       }
 
-      const newUser = await prisma.user.create({
-        data: {
+      const newUserPayload = {
           email,
           username: user.login.toLowerCase(),
           email_verified: true,
           github_id: user.id,
           auth_method: "github",
-        },
+        }
+
+      console.log(newUserPayload)
+      
+      const newUser = await prisma.user.create({
+        data: newUserPayload
       });
+      
       await logsnag.publish({
         channel: "user-signup",
         event: "New user signup",
@@ -82,7 +85,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       res.redirect(`${clientUrl}/login?status=failed`);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.redirect(`${clientUrl}/login?status=failed`);
   }
 };
