@@ -24,7 +24,6 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
     const accessToken = new URLSearchParams(response.data).get("access_token");
 
-
     if (accessToken) {
       const octokit = new Octokit({
         auth: accessToken,
@@ -33,13 +32,11 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const userResponse = await octokit.request("GET /user");
 
       const userEmails = await octokit.request("GET /user/emails");
-     
 
       const user = userResponse.data;
-      
+
       const email = userEmails.data.find((email) => email.primary)
         ?.email as string;
-     
 
       const userExists = await prisma.user.findFirst({
         where: {
@@ -47,27 +44,25 @@ const githubAuthCallback = async (req: Request, res: Response) => {
         },
       });
 
-     
-
       if (userExists) {
         await generateAccessToken(res, userExists.id);
         return res.redirect(`${clientUrl}/${userExists?.username}`);
       }
 
       const newUserPayload = {
-          email,
-          username: user.login.toLowerCase(),
-          email_verified: true,
-          github_id: user.id,
-          auth_method: "github",
-        }
+        email,
+        username: user.login.toLowerCase(),
+        email_verified: true,
+        github_id: user.id,
+        auth_method: "github",
+      };
 
-      console.log(newUserPayload)
-      
+      console.log(newUserPayload);
+
       const newUser = await prisma.user.create({
-        data: newUserPayload
+        data: newUserPayload,
       });
-      
+
       await logsnag.publish({
         channel: "user-signup",
         event: "New user signup",
