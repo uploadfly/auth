@@ -20,14 +20,13 @@
     "@types/node": "^18.15.3",
     "@types/passport-github2": "^1.2.5",
     "@types/validator": "^13.7.17",
-    "prisma": "^4.16.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
   "dependencies": {
     "@logdrop/node": "^0.0.3",
     "@plunk/node": "^1.1.1",
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^5.7.1",
     "@sentry/node": "^7.64.0",
     "@types/bcryptjs": "^2.4.4",
     "@types/connect": "^3.4.35",
@@ -52,6 +51,7 @@
     "nodemon": "^2.0.21",
     "octokit": "^2.0.18",
     "otpauth": "^9.1.2",
+    "prisma": "^5.7.1",
     "randomstring": "^1.2.3",
     "uuid": "^9.0.0",
     "validator": "^13.9.0"
