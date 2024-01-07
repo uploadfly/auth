@@ -24,6 +24,8 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
     const accessToken = new URLSearchParams(response.data).get("access_token");
 
+    console.log(`Access Token: ${accessToken || "No access token"}`)
+
     if (accessToken) {
       const octokit = new Octokit({
         auth: accessToken,
