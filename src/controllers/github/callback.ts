@@ -24,7 +24,6 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
     const accessToken = new URLSearchParams(response.data).get("access_token");
 
-    console.log(`Access Token: ${accessToken || "No access token"}`)
 
     if (accessToken) {
       const octokit = new Octokit({
@@ -34,16 +33,24 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       const userResponse = await octokit.request("GET /user");
 
       const userEmails = await octokit.request("GET /user/emails");
+      
+      console.log("EMAILS++++++++++++++++++++++++++++++++++++++++++")
+      console.log(userEmails)
 
       const user = userResponse.data;
       const email = userEmails.data.find((email) => email.primary)
         ?.email as string;
+      console.log('EMAIL__________________________________________')
+      console.log(email)
 
       const userExists = await prisma.user.findFirst({
         where: {
           github_id: user.id,
         },
       });
+
+      console.log('USER EXISTS|||||||||||||||||||||||||||||||||||||||||||')
+      console.log(userExists)
 
       if (userExists) {
         await generateAccessToken(res, userExists.id);
@@ -73,9 +80,10 @@ const githubAuthCallback = async (req: Request, res: Response) => {
       res.redirect(`${clientUrl}/${newUser?.username}`);
     } else {
       throw new Error("Failed to obtain access token from GitHub");
+      res.redirect(`${clientUrl}/login?status=failed`);
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.redirect(`${clientUrl}/login?status=failed`);
   }
 };
