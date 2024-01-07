@@ -40,7 +40,7 @@ const githubAuthCallback = async (req: Request, res: Response) => {
 
       const userExists = await prisma.user.findFirst({
         where: {
-          github_id: user.id,
+          email,
         },
       });
 
