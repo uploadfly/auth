@@ -14,7 +14,6 @@ const sendEmail = async ({
       to,
       subject,
       body,
-      subscribed: true,
     });
   } catch (error) {
     console.log(error);
